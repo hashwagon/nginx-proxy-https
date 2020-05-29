@@ -2,9 +2,9 @@
 The implementation of nginx reverse proxy is based off of this project: https://hub.docker.com/r/jwilder/nginx-proxy/ and the incorporation of Let's Encrypt from https://github.com/buchdag/letsencrypt-nginx-proxy-companion-compose.
 ## Prerequisites
 ### Docker
-docker must be installed, please follow [https://docs.docker.com/engine/install/](this documentation).
+docker must be installed, please follow [this documentation](https://docs.docker.com/engine/install/).
 ### Docker Compose
-docker-compose must be installed, please follow [https://docs.docker.com/compose/install/](this documentation).
+docker-compose must be installed, please follow [this documentation](https://docs.docker.com/compose/install/).
 ## Getting Started
 Create the following network
 ```
