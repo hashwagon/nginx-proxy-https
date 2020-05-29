@@ -18,7 +18,7 @@ docker-compose up -d
 For separate docker-compose.yml services you wish to put behind the proxy, add the following to the `docker-compose.yml file`.
 ```
     environment:
-	  LETSENCRYPT_EMAIL: alerts@youremail.com
+      LETSENCRYPT_EMAIL: alerts@youremail.com
       LETSENCRYPT_HOST: your.site.com
       VIRTUAL_HOST: your.site.com
 ```
