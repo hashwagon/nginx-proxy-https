@@ -1,0 +1,56 @@
+version: "3.5"
+
+# reference: https://github.com/buchdag/letsencrypt-nginx-proxy-companion-compose
+#
+# important: don't forget to create nginx-proxy network!
+# $ docker network create nginx-proxy
+#
+# required for separate virtual host docker-compose.yml contents:
+# networks:
+#   default:
+#     external:
+#       name: nginx-proxy
+#
+
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/vhost:/etc/nginx/vhost.d
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    # uncomment below for advanced usage, e.g., passing proxy_set_header parameters:
+    # - ./proxy.conf:/etc/nginx/proxy.conf
+    restart: always
+
+  nginx-proxy-le:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-le
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - ./nginx/vhost:/etc/nginx/vhost.d
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/dhparam:/etc/nginx/dhparam:ro
+      - ./nginx/certs:/etc/nginx/certs
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    restart: always
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
